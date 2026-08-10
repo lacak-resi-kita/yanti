@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Lacak Paket</title>
 
   <style>
@@ -24,17 +25,16 @@
     }
 
     .header {
-      background: #ffffff;
+      background: white;
       padding: 25px;
       border-radius: 14px;
       text-align: center;
       margin-bottom: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
     }
 
     .header h1 {
       margin: 0 0 8px;
-      font-size: 28px;
     }
 
     .header p {
@@ -43,10 +43,10 @@
     }
 
     .form-box {
-      background: #ffffff;
+      background: white;
       padding: 20px;
       border-radius: 14px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
     }
 
     label {
@@ -68,7 +68,7 @@
       border: 1px solid #d5d5d5;
       padding: 13px;
       margin-bottom: 18px;
-      background: #fff;
+      background: white;
     }
 
     textarea {
@@ -86,15 +86,13 @@
     }
 
     button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+      opacity: .6;
     }
 
     .info {
-      margin-top: 10px;
-      margin-bottom: 20px;
       color: #666;
       font-size: 14px;
+      margin-bottom: 15px;
     }
 
     #hasil {
@@ -103,19 +101,19 @@
 
     .card {
       background: white;
+      padding: 22px;
       border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      margin-bottom: 22px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
     }
 
     .card h3 {
       margin-top: 0;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .row {
-      margin-bottom: 18px;
+      margin-bottom: 20px;
       line-height: 1.5;
     }
 
@@ -130,21 +128,54 @@
       word-break: break-word;
     }
 
-    .history {
-      display: inline-block;
-      margin-top: 4px;
-      padding: 10px 14px;
+    .status {
+      font-weight: bold;
+    }
+
+    .history-button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 9px;
       background: #eef2ff;
       color: #3730a3;
-      border-radius: 8px;
-      text-decoration: none;
       font-weight: bold;
       cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .history {
+      display: none;
+      margin-top: 18px;
+      border-top: 1px solid #ddd;
+      padding-top: 18px;
+    }
+
+    .history-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .history-date {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .history-desc {
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .history-location {
+      color: #777;
+      font-size: 14px;
+      margin-top: 5px;
     }
 
     .loading {
-      color: #666;
       text-align: center;
+      color: #666;
       padding: 20px;
     }
 
@@ -155,11 +186,8 @@
       border-radius: 8px;
     }
 
-    .success {
-      color: #166534;
-      background: #dcfce7;
-      padding: 12px;
-      border-radius: 8px;
+    .empty {
+      color: #777;
     }
   </style>
 </head>
@@ -175,7 +203,7 @@
 
   <div class="form-box">
 
-    <label for="courier">Pilih Ekspedisi</label>
+    <label>Pilih Ekspedisi</label>
 
     <select id="courier">
       <option value="jne">JNE</option>
@@ -192,16 +220,16 @@
       <option value="jnt_cargo">J&T Cargo</option>
     </select>
 
-    <label for="resi">Nomor Resi</label>
+    <label>Nomor Resi</label>
 
     <textarea
       id="resi"
-      placeholder="Masukkan nomor resi, satu resi per baris.
+      placeholder="Masukkan nomor resi, satu resi per baris
 
 Contoh:
+004639699228
 123456789
-987654321
-555555555"></textarea>
+987654321"></textarea>
 
     <div class="info">
       Maksimal 55 resi dalam satu kali pencarian.
@@ -217,17 +245,19 @@ Contoh:
 
 </div>
 
+
 <script>
 
 const WORKER_URL =
   "https://proud-sun-00d0.adyoga65.workers.dev";
+
 
 async function lacakResi() {
 
   const courier =
     document.getElementById("courier").value;
 
-  const textarea =
+  const input =
     document.getElementById("resi").value;
 
   const hasil =
@@ -236,26 +266,38 @@ async function lacakResi() {
   const button =
     document.getElementById("btnLacak");
 
-  let resiList = textarea
-    .split(/\r?\n/)
-    .map(x => x.trim())
-    .filter(x => x !== "");
+  let resiList =
+    input
+      .split(/\r?\n/)
+      .map(x => x.trim())
+      .filter(x => x !== "");
+
 
   if (resiList.length === 0) {
+
     hasil.innerHTML =
-      '<div class="error">Masukkan minimal 1 nomor resi.</div>';
+      '<div class="error">Masukkan nomor resi terlebih dahulu.</div>';
+
     return;
   }
+
 
   if (resiList.length > 55) {
+
     hasil.innerHTML =
-      '<div class="error">Maksimal 55 resi dalam satu pencarian.</div>';
+      '<div class="error">Maksimal 55 resi.</div>';
+
     return;
   }
 
+
   hasil.innerHTML = "";
+
   button.disabled = true;
-  button.textContent = "Sedang melacak...";
+
+  button.textContent =
+    "Sedang melacak...";
+
 
   for (let i = 0; i < resiList.length; i++) {
 
@@ -270,210 +312,252 @@ async function lacakResi() {
       <h3>Resi #${i + 1}</h3>
 
       <div class="loading">
-        Memeriksa nomor resi ${escapeHtml(awb)}...
+        Memeriksa ${escapeHtml(awb)}...
       </div>
     `;
 
     hasil.appendChild(card);
 
+
     try {
 
       const url =
-        `${WORKER_URL}/api/track?courier=${encodeURIComponent(courier)}&awb=${encodeURIComponent(awb)}`;
+        `${WORKER_URL}/api/track` +
+        `?courier=${encodeURIComponent(courier)}` +
+        `&awb=${encodeURIComponent(awb)}`;
+
 
       const response =
         await fetch(url);
 
+
       const data =
         await response.json();
 
+
       if (!response.ok) {
+
         throw new Error(
-          data.message || "Gagal mengambil data tracking."
+          data.message || "Gagal mengambil data."
         );
+
       }
 
+
       card.innerHTML =
-        buatTampilanHasil(data, awb);
+        tampilkanHasil(data, awb, i);
+
 
     } catch (error) {
 
       card.innerHTML = `
         <h3>Resi #${i + 1}</h3>
 
-        <div class="row">
-          <span class="label">No Resi :</span>
-          <span class="value">${escapeHtml(awb)}</span>
-        </div>
-
         <div class="error">
           Gagal mengambil data tracking.
-          <br>
+          <br><br>
           ${escapeHtml(error.message)}
         </div>
       `;
+
     }
 
   }
 
+
   button.disabled = false;
-  button.textContent = "Lacak Paket";
+
+  button.textContent =
+    "Lacak Paket";
 }
 
 
-function buatTampilanHasil(data, awb) {
+function tampilkanHasil(data, awb, nomor) {
 
-  /*
-    Data BinderByte bisa berbeda antar ekspedisi.
-    Kita coba membaca beberapa nama field yang umum.
-  */
+  const paket =
+    data.data || {};
 
-  const penerima =
-    ambilData(data,
-      ["recipient", "receiver", "penerima", "consignee"]
-    );
+  const summary =
+    paket.summary || {};
 
-  const alamat =
-    ambilData(data,
-      ["address", "alamat", "destination", "dest"]
-    );
-
-  const seller =
-    ambilData(data,
-      ["seller", "shipper", "pengirim", "sender"]
-    );
-
-  const status =
-    ambilStatus(data);
+  const detail =
+    paket.detail || {};
 
   const history =
-    ambilHistory(data);
+    Array.isArray(paket.history)
+      ? paket.history
+      : [];
+
+
+  const penerima =
+    detail.receiver || "-";
+
+  const alamat =
+    detail.destination || "-";
+
+  const noResi =
+    summary.awb || awb;
+
+  const seller =
+    detail.shipper || "-";
+
+  const status =
+    summary.status || "-";
+
+
+  let historyHTML = "";
+
+
+  if (history.length === 0) {
+
+    historyHTML =
+      `<div class="empty">
+        Riwayat perjalanan tidak tersedia.
+      </div>`;
+
+  } else {
+
+    historyHTML =
+      history.map(item => {
+
+        return `
+          <div class="history-item">
+
+            <div class="history-date">
+              ${escapeHtml(item.date || "-")}
+            </div>
+
+            <div class="history-desc">
+              ${escapeHtml(item.desc || "-")}
+            </div>
+
+            ${
+              item.location
+              ? `
+                <div class="history-location">
+                  ${escapeHtml(item.location)}
+                </div>
+              `
+              : ""
+            }
+
+          </div>
+        `;
+
+      }).join("");
+
+  }
+
 
   return `
+
     <h3>Hasil Tracking</h3>
 
-    <div class="row">
-      <span class="label">Nama Penerima :</span>
-      <span class="value">
-        ${escapeHtml(penerima || "-")}
-      </span>
-    </div>
 
     <div class="row">
-      <span class="label">Alamat :</span>
-      <span class="value">
-        ${escapeHtml(alamat || "-")}
+
+      <span class="label">
+        Nama Penerima :
       </span>
+
+      <span class="value">
+        ${escapeHtml(penerima)}
+      </span>
+
     </div>
+
 
     <div class="row">
-      <span class="label">No Resi :</span>
-      <span class="value">
-        ${escapeHtml(awb)}
+
+      <span class="label">
+        Alamat :
       </span>
+
+      <span class="value">
+        ${escapeHtml(alamat)}
+      </span>
+
     </div>
+
 
     <div class="row">
-      <span class="label">Seller :</span>
-      <span class="value">
-        ${escapeHtml(seller || "-")}
+
+      <span class="label">
+        No Resi :
       </span>
+
+      <span class="value">
+        ${escapeHtml(noResi)}
+      </span>
+
     </div>
+
 
     <div class="row">
-      <span class="label">Status :</span>
-      <span class="value">
-        ${escapeHtml(status || "-")}
+
+      <span class="label">
+        Seller :
       </span>
+
+      <span class="value">
+        ${escapeHtml(seller)}
+      </span>
+
     </div>
 
-    ${
-      history
-      ? `
-        <div class="row">
-          <a
-            class="history"
-            href="${escapeAttribute(history)}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Lihat riwayat perjalanan
-          </a>
-        </div>
-      `
-      : `
-        <div class="row">
-          <span class="history" onclick="lihatRiwayat()">
-            Lihat riwayat perjalanan
-          </span>
-        </div>
-      `
-    }
+
+    <div class="row">
+
+      <span class="label">
+        Status :
+      </span>
+
+      <span class="value status">
+        ${escapeHtml(status)}
+      </span>
+
+    </div>
+
+
+    <button
+      class="history-button"
+      onclick="toggleHistory(${nomor})">
+
+      Lihat riwayat perjalanan
+
+    </button>
+
+
+    <div
+      id="history-${nomor}"
+      class="history">
+
+      ${historyHTML}
+
+    </div>
+
   `;
 }
 
 
-function ambilData(data, fields) {
+function toggleHistory(nomor) {
 
-  for (const field of fields) {
-
-    if (
-      data &&
-      data[field] !== undefined &&
-      data[field] !== null &&
-      data[field] !== ""
-    ) {
-      return String(data[field]);
-    }
-
-    if (
-      data &&
-      data.data &&
-      data.data[field] !== undefined &&
-      data.data[field] !== null &&
-      data.data[field] !== ""
-    ) {
-      return String(data.data[field]);
-    }
-  }
-
-  return "";
-}
-
-
-function ambilStatus(data) {
-
-  const status =
-    ambilData(data,
-      ["status", "tracking_status", "current_status"]
+  const element =
+    document.getElementById(
+      `history-${nomor}`
     );
 
-  return status || "Data tracking tersedia";
-}
 
+  if (element.style.display === "block") {
 
-function ambilHistory(data) {
+    element.style.display = "none";
 
-  if (data && typeof data.history_url === "string") {
-    return data.history_url;
+  } else {
+
+    element.style.display = "block";
+
   }
 
-  if (
-    data &&
-    data.data &&
-    typeof data.data.history_url === "string"
-  ) {
-    return data.data.history_url;
-  }
-
-  return "";
-}
-
-
-function lihatRiwayat() {
-  alert(
-    "Riwayat perjalanan akan ditampilkan setelah format data riwayat dari API dikonfigurasi."
-  );
 }
 
 
@@ -485,11 +569,7 @@ function escapeHtml(text) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-}
 
-
-function escapeAttribute(text) {
-  return escapeHtml(text);
 }
 
 </script>
