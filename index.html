@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lacak Paket</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f5f6f8;
+      color: #222;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .header {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 14px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .header p {
+      margin: 0;
+      color: #666;
+    }
+
+    .form-box {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    select,
+    textarea,
+    button {
+      width: 100%;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+
+    select,
+    textarea {
+      border: 1px solid #d5d5d5;
+      padding: 13px;
+      margin-bottom: 18px;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    button {
+      border: none;
+      padding: 14px;
+      background: #111827;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .info {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    #hasil {
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .row {
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .value {
+      color: #444;
+      word-break: break-word;
+    }
+
+    .history {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 10px 14px;
+      background: #eef2ff;
+      color: #3730a3;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .loading {
+      color: #666;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .error {
+      color: #b91c1c;
+      background: #fee2e2;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .success {
+      color: #166534;
+      background: #dcfce7;
+      padding: 12px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>Lacak Paket</h1>
+    <p>Cek status pengiriman paket Anda</p>
+  </div>
+
+  <div class="form-box">
+
+    <label for="courier">Pilih Ekspedisi</label>
+
+    <select id="courier">
+      <option value="jne">JNE</option>
+      <option value="jnt">J&T Express</option>
+      <option value="sicepat">SiCepat</option>
+      <option value="anteraja">AnterAja</option>
+      <option value="pos">Pos Indonesia</option>
+      <option value="tiki">TIKI</option>
+      <option value="wahana">Wahana</option>
+      <option value="ninja">Ninja Xpress</option>
+      <option value="lion">Lion Parcel</option>
+      <option value="idexpress">ID Express</option>
+      <option value="spx">Shopee Express</option>
+      <option value="jnt_cargo">J&T Cargo</option>
+    </select>
+
+    <label for="resi">Nomor Resi</label>
+
+    <textarea
+      id="resi"
+      placeholder="Masukkan nomor resi, satu resi per baris.
+
+Contoh:
+123456789
+987654321
+555555555"></textarea>
+
+    <div class="info">
+      Maksimal 55 resi dalam satu kali pencarian.
+    </div>
+
+    <button id="btnLacak" onclick="lacakResi()">
+      Lacak Paket
+    </button>
+
+  </div>
+
+  <div id="hasil"></div>
+
+</div>
+
+<script>
+
+const WORKER_URL =
+  "https://proud-sun-00d0.adyoga65.workers.dev";
+
+async function lacakResi() {
+
+  const courier =
+    document.getElementById("courier").value;
+
+  const textarea =
+    document.getElementById("resi").value;
+
+  const hasil =
+    document.getElementById("hasil");
+
+  const button =
+    document.getElementById("btnLacak");
+
+  let resiList = textarea
+    .split(/\r?\n/)
+    .map(x => x.trim())
+    .filter(x => x !== "");
+
+  if (resiList.length === 0) {
+    hasil.innerHTML =
+      '<div class="error">Masukkan minimal 1 nomor resi.</div>';
+    return;
+  }
+
+  if (resiList.length > 55) {
+    hasil.innerHTML =
+      '<div class="error">Maksimal 55 resi dalam satu pencarian.</div>';
+    return;
+  }
+
+  hasil.innerHTML = "";
+  button.disabled = true;
+  button.textContent = "Sedang melacak...";
+
+  for (let i = 0; i < resiList.length; i++) {
+
+    const awb = resiList[i];
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>Resi #${i + 1}</h3>
+
+      <div class="loading">
+        Memeriksa nomor resi ${escapeHtml(awb)}...
+      </div>
+    `;
+
+    hasil.appendChild(card);
+
+    try {
+
+      const url =
+        `${WORKER_URL}/api/track?courier=${encodeURIComponent(courier)}&awb=${encodeURIComponent(awb)}`;
+
+      const response =
+        await fetch(url);
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Gagal mengambil data tracking."
+        );
+      }
+
+      card.innerHTML =
+        buatTampilanHasil(data, awb);
+
+    } catch (error) {
+
+      card.innerHTML = `
+        <h3>Resi #${i + 1}</h3>
+
+        <div class="row">
+          <span class="label">No Resi :</span>
+          <span class="value">${escapeHtml(awb)}</span>
+        </div>
+
+        <div class="error">
+          Gagal mengambil data tracking.
+          <br>
+          ${escapeHtml(error.message)}
+        </div>
+      `;
+    }
+
+  }
+
+  button.disabled = false;
+  button.textContent = "Lacak Paket";
+}
+
+
+function buatTampilanHasil(data, awb) {
+
+  /*
+    Data BinderByte bisa berbeda antar ekspedisi.
+    Kita coba membaca beberapa nama field yang umum.
+  */
+
+  const penerima =
+    ambilData(data,
+      ["recipient", "receiver", "penerima", "consignee"]
+    );
+
+  const alamat =
+    ambilData(data,
+      ["address", "alamat", "destination", "dest"]
+    );
+
+  const seller =
+    ambilData(data,
+      ["seller", "shipper", "pengirim", "sender"]
+    );
+
+  const status =
+    ambilStatus(data);
+
+  const history =
+    ambilHistory(data);
+
+  return `
+    <h3>Hasil Tracking</h3>
+
+    <div class="row">
+      <span class="label">Nama Penerima :</span>
+      <span class="value">
+        ${escapeHtml(penerima || "-")}
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="label">Alamat :</span>
+      <span class="value">
+        ${escapeHtml(alamat || "-")}
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="label">No Resi :</span>
+      <span class="value">
+        ${escapeHtml(awb)}
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="label">Seller :</span>
+      <span class="value">
+        ${escapeHtml(seller || "-")}
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="label">Status :</span>
+      <span class="value">
+        ${escapeHtml(status || "-")}
+      </span>
+    </div>
+
+    ${
+      history
+      ? `
+        <div class="row">
+          <a
+            class="history"
+            href="${escapeAttribute(history)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Lihat riwayat perjalanan
+          </a>
+        </div>
+      `
+      : `
+        <div class="row">
+          <span class="history" onclick="lihatRiwayat()">
+            Lihat riwayat perjalanan
+          </span>
+        </div>
+      `
+    }
+  `;
+}
+
+
+function ambilData(data, fields) {
+
+  for (const field of fields) {
+
+    if (
+      data &&
+      data[field] !== undefined &&
+      data[field] !== null &&
+      data[field] !== ""
+    ) {
+      return String(data[field]);
+    }
+
+    if (
+      data &&
+      data.data &&
+      data.data[field] !== undefined &&
+      data.data[field] !== null &&
+      data.data[field] !== ""
+    ) {
+      return String(data.data[field]);
+    }
+  }
+
+  return "";
+}
+
+
+function ambilStatus(data) {
+
+  const status =
+    ambilData(data,
+      ["status", "tracking_status", "current_status"]
+    );
+
+  return status || "Data tracking tersedia";
+}
+
+
+function ambilHistory(data) {
+
+  if (data && typeof data.history_url === "string") {
+    return data.history_url;
+  }
+
+  if (
+    data &&
+    data.data &&
+    typeof data.data.history_url === "string"
+  ) {
+    return data.data.history_url;
+  }
+
+  return "";
+}
+
+
+function lihatRiwayat() {
+  alert(
+    "Riwayat perjalanan akan ditampilkan setelah format data riwayat dari API dikonfigurasi."
+  );
+}
+
+
+function escapeHtml(text) {
+
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+function escapeAttribute(text) {
+  return escapeHtml(text);
+}
+
+</script>
+
+</body>
+</html>
