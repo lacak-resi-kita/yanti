@@ -13,237 +13,357 @@
 
     body {
       margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      background: #f5f6f8;
-      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f6fb;
+      color: #172033;
+    }
+
+    .top {
+      background: linear-gradient(135deg, #111827, #273449);
+      color: white;
+      padding: 45px 20px 80px;
+      text-align: center;
+    }
+
+    .top h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .top p {
+      margin: 12px 0 0;
+      color: #d7deea;
+      font-size: 15px;
     }
 
     .container {
-      max-width: 700px;
-      margin: auto;
+      max-width: 720px;
+      margin: -45px auto 40px;
+      padding: 0 16px;
+      position: relative;
     }
 
-    .header {
+    .search-box {
       background: white;
-      padding: 25px;
-      border-radius: 14px;
-      text-align: center;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 35px rgba(15, 23, 42, .12);
+    }
+
+    .field {
       margin-bottom: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
     }
 
-    .header h1 {
-      margin: 0 0 8px;
-    }
-
-    .header p {
-      margin: 0;
-      color: #666;
-    }
-
-    .form-box {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
-    }
-
-    label {
+    .field label {
       display: block;
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: 700;
       margin-bottom: 8px;
+      color: #344054;
     }
 
     select,
-    textarea,
-    button {
+    textarea {
       width: 100%;
-      font-size: 16px;
-      border-radius: 10px;
-    }
-
-    select,
-    textarea {
-      border: 1px solid #d5d5d5;
-      padding: 13px;
-      margin-bottom: 18px;
-      background: white;
-    }
-
-    textarea {
-      min-height: 180px;
-      resize: vertical;
-    }
-
-    button {
-      border: none;
+      border: 1px solid #d8dee8;
+      border-radius: 12px;
       padding: 14px;
+      font-size: 15px;
+      outline: none;
+      background: white;
+      color: #172033;
+    }
+
+    select:focus,
+    textarea:focus {
+      border-color: #64748b;
+      box-shadow: 0 0 0 3px rgba(100, 116, 139, .12);
+    }
+
+    textarea {
+      min-height: 155px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .counter {
+      margin-top: 7px;
+      color: #7b8494;
+      font-size: 12px;
+    }
+
+    .track-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 15px;
       background: #111827;
       color: white;
-      font-weight: bold;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
+      transition: .2s;
     }
 
-    button:disabled {
+    .track-btn:hover {
+      background: #1f2937;
+    }
+
+    .track-btn:disabled {
       opacity: .6;
-    }
-
-    .info {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 15px;
+      cursor: not-allowed;
     }
 
     #hasil {
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     .card {
       background: white;
-      padding: 22px;
-      border-radius: 14px;
-      margin-bottom: 22px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 24px;
-    }
-
-    .row {
+      border-radius: 18px;
+      padding: 23px;
       margin-bottom: 20px;
-      line-height: 1.5;
+      box-shadow: 0 7px 25px rgba(15, 23, 42, .08);
     }
 
-    .label {
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 17px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #edf0f5;
+    }
+
+    .card-title h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .number {
+      font-size: 12px;
+      color: #8a94a6;
+    }
+
+    .info-row {
+      margin-bottom: 19px;
+    }
+
+    .info-label {
       display: block;
-      font-weight: bold;
+      color: #7a8494;
+      font-size: 12px;
       margin-bottom: 5px;
     }
 
-    .value {
-      color: #444;
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1d2939;
       word-break: break-word;
     }
 
     .status {
-      font-weight: bold;
+      display: inline-block;
+      padding: 7px 11px;
+      border-radius: 20px;
+      background: #e9f8ef;
+      color: #18794e;
+      font-size: 12px;
+      font-weight: 800;
     }
 
-    .history-button {
-      display: block;
+    .history-btn {
       width: 100%;
+      border: 1px solid #dce2ea;
+      background: #f8fafc;
+      color: #344054;
+      border-radius: 11px;
       padding: 12px;
-      border: none;
-      border-radius: 9px;
-      background: #eef2ff;
-      color: #3730a3;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 5px;
+      margin-top: 4px;
+    }
+
+    .history-btn:hover {
+      background: #f1f5f9;
     }
 
     .history {
       display: none;
-      margin-top: 18px;
-      border-top: 1px solid #ddd;
-      padding-top: 18px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #edf0f5;
     }
 
-    .history-item {
-      padding: 14px 0;
-      border-bottom: 1px solid #eee;
+    .timeline {
+      position: relative;
+      padding-left: 22px;
     }
 
-    .history-date {
-      font-weight: bold;
-      margin-bottom: 6px;
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      bottom: 5px;
+      width: 2px;
+      background: #dce2ea;
     }
 
-    .history-desc {
-      color: #444;
-      line-height: 1.5;
+    .event {
+      position: relative;
+      padding-bottom: 20px;
     }
 
-    .history-location {
-      color: #777;
-      font-size: 14px;
-      margin-top: 5px;
+    .event::before {
+      content: "";
+      position: absolute;
+      left: -21px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #111827;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1px #cbd5e1;
+    }
+
+    .event-date {
+      font-size: 11px;
+      color: #8a94a6;
+      margin-bottom: 5px;
+    }
+
+    .event-desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #344054;
+    }
+
+    .event-location {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #98a2b3;
     }
 
     .loading {
       text-align: center;
-      color: #666;
-      padding: 20px;
+      padding: 25px;
+      color: #7b8494;
+      font-size: 14px;
     }
 
     .error {
-      color: #b91c1c;
-      background: #fee2e2;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #fff0f0;
+      color: #b42318;
+      font-size: 14px;
     }
 
     .empty {
-      color: #777;
+      color: #8a94a6;
+      font-size: 13px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #98a2b3;
+      font-size: 12px;
+      padding: 10px 0 25px;
+    }
+
+    @media (max-width: 480px) {
+
+      .top {
+        padding-top: 35px;
+        padding-bottom: 70px;
+      }
+
+      .top h1 {
+        font-size: 27px;
+      }
+
+      .search-box {
+        padding: 19px;
+      }
+
+      .card {
+        padding: 19px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<div class="container">
-
-  <div class="header">
+  <div class="top">
     <h1>Lacak Paket</h1>
-    <p>Cek status pengiriman paket Anda</p>
+    <p>Pantau perjalanan paket Anda dengan mudah</p>
   </div>
 
-  <div class="form-box">
+  <main class="container">
 
-    <label>Pilih Ekspedisi</label>
+    <section class="search-box">
 
-    <select id="courier">
-      <option value="jne">JNE</option>
-      <option value="jnt">J&T Express</option>
-      <option value="sicepat">SiCepat</option>
-      <option value="anteraja">AnterAja</option>
-      <option value="pos">Pos Indonesia</option>
-      <option value="tiki">TIKI</option>
-      <option value="wahana">Wahana</option>
-      <option value="ninja">Ninja Xpress</option>
-      <option value="lion">Lion Parcel</option>
-      <option value="idexpress">ID Express</option>
-      <option value="spx">Shopee Express</option>
-      <option value="jnt_cargo">J&T Cargo</option>
-    </select>
+      <div class="field">
+        <label for="courier">Ekspedisi</label>
 
-    <label>Nomor Resi</label>
+        <select id="courier">
+          <option value="jne">JNE</option>
+          <option value="jnt">J&T Express</option>
+          <option value="sicepat">SiCepat</option>
+          <option value="anteraja">AnterAja</option>
+          <option value="pos">Pos Indonesia</option>
+          <option value="tiki">TIKI</option>
+          <option value="wahana">Wahana</option>
+          <option value="ninja">Ninja Xpress</option>
+          <option value="lion">Lion Parcel</option>
+          <option value="idexpress">ID Express</option>
+          <option value="spx">Shopee Express</option>
+          <option value="jnt_cargo">J&T Cargo</option>
+        </select>
+      </div>
 
-    <textarea
-      id="resi"
-      placeholder="Masukkan nomor resi, satu resi per baris
+      <div class="field">
+        <label for="resi">Nomor Resi</label>
+
+        <textarea
+          id="resi"
+          placeholder="Masukkan nomor resi, satu nomor per baris
 
 Contoh:
 004639699228
 123456789
 987654321"></textarea>
 
-    <div class="info">
-      Maksimal 55 resi dalam satu kali pencarian.
+        <div class="counter">
+          Maksimal 55 nomor resi
+        </div>
+      </div>
+
+      <button
+        id="btnLacak"
+        class="track-btn"
+        onclick="lacakResi()">
+
+        Lacak Paket
+
+      </button>
+
+    </section>
+
+    <div id="hasil"></div>
+
+    <div class="footer">
+      Sistem pelacakan paket
     </div>
 
-    <button id="btnLacak" onclick="lacakResi()">
-      Lacak Paket
-    </button>
-
-  </div>
-
-  <div id="hasil"></div>
-
-</div>
+  </main>
 
 
 <script>
@@ -266,7 +386,8 @@ async function lacakResi() {
   const button =
     document.getElementById("btnLacak");
 
-  let resiList =
+
+  const resiList =
     input
       .split(/\r?\n/)
       .map(x => x.trim())
@@ -285,7 +406,7 @@ async function lacakResi() {
   if (resiList.length > 55) {
 
     hasil.innerHTML =
-      '<div class="error">Maksimal 55 resi.</div>';
+      '<div class="error">Maksimal 55 nomor resi.</div>';
 
     return;
   }
@@ -296,25 +417,40 @@ async function lacakResi() {
   button.disabled = true;
 
   button.textContent =
-    "Sedang melacak...";
+    "Memproses...";
 
 
   for (let i = 0; i < resiList.length; i++) {
 
-    const awb = resiList[i];
+    const awb =
+      resiList[i];
+
 
     const card =
       document.createElement("div");
 
-    card.className = "card";
+    card.className =
+      "card";
+
 
     card.innerHTML = `
-      <h3>Resi #${i + 1}</h3>
+
+      <div class="card-title">
+
+        <h2>Detail Paket</h2>
+
+        <span class="number">
+          #${i + 1}
+        </span>
+
+      </div>
 
       <div class="loading">
-        Memeriksa ${escapeHtml(awb)}...
+        Memuat data paket...
       </div>
+
     `;
+
 
     hasil.appendChild(card);
 
@@ -338,26 +474,37 @@ async function lacakResi() {
       if (!response.ok) {
 
         throw new Error(
-          data.message || "Gagal mengambil data."
+          data.message || "Tracking gagal"
         );
 
       }
 
 
       card.innerHTML =
-        tampilkanHasil(data, awb, i);
+        renderPaket(data, awb, i);
 
 
     } catch (error) {
 
       card.innerHTML = `
-        <h3>Resi #${i + 1}</h3>
+
+        <div class="card-title">
+          <h2>Detail Paket</h2>
+          <span class="number">
+            #${i + 1}
+          </span>
+        </div>
 
         <div class="error">
+
           Gagal mengambil data tracking.
+
           <br><br>
+
           ${escapeHtml(error.message)}
+
         </div>
+
       `;
 
     }
@@ -372,7 +519,7 @@ async function lacakResi() {
 }
 
 
-function tampilkanHasil(data, awb, nomor) {
+function renderPaket(data, awb, index) {
 
   const paket =
     data.data || {};
@@ -389,13 +536,13 @@ function tampilkanHasil(data, awb, nomor) {
       : [];
 
 
-  const penerima =
+  const receiver =
     detail.receiver || "-";
 
-  const alamat =
+  const destination =
     detail.destination || "-";
 
-  const noResi =
+  const resi =
     summary.awb || awb;
 
   const seller =
@@ -411,30 +558,30 @@ function tampilkanHasil(data, awb, nomor) {
   if (history.length === 0) {
 
     historyHTML =
-      `<div class="empty">
-        Riwayat perjalanan tidak tersedia.
-      </div>`;
+      '<div class="empty">Riwayat perjalanan tidak tersedia.</div>';
 
   } else {
 
-    historyHTML =
-      history.map(item => {
+    historyHTML = `
 
-        return `
-          <div class="history-item">
+      <div class="timeline">
 
-            <div class="history-date">
+        ${history.map(item => `
+
+          <div class="event">
+
+            <div class="event-date">
               ${escapeHtml(item.date || "-")}
             </div>
 
-            <div class="history-desc">
+            <div class="event-desc">
               ${escapeHtml(item.desc || "-")}
             </div>
 
             ${
               item.location
               ? `
-                <div class="history-location">
+                <div class="event-location">
                   ${escapeHtml(item.location)}
                 </div>
               `
@@ -442,77 +589,88 @@ function tampilkanHasil(data, awb, nomor) {
             }
 
           </div>
-        `;
 
-      }).join("");
+        `).join("")}
+
+      </div>
+
+    `;
 
   }
 
 
   return `
 
-    <h3>Hasil Tracking</h3>
+    <div class="card-title">
 
+      <h2>Detail Paket</h2>
 
-    <div class="row">
-
-      <span class="label">
-        Nama Penerima :
-      </span>
-
-      <span class="value">
-        ${escapeHtml(penerima)}
+      <span class="number">
+        #${index + 1}
       </span>
 
     </div>
 
 
-    <div class="row">
+    <div class="info-row">
 
-      <span class="label">
-        Alamat :
+      <span class="info-label">
+        Nama Penerima
       </span>
 
-      <span class="value">
-        ${escapeHtml(alamat)}
-      </span>
-
-    </div>
-
-
-    <div class="row">
-
-      <span class="label">
-        No Resi :
-      </span>
-
-      <span class="value">
-        ${escapeHtml(noResi)}
+      <span class="info-value">
+        ${escapeHtml(receiver)}
       </span>
 
     </div>
 
 
-    <div class="row">
+    <div class="info-row">
 
-      <span class="label">
-        Seller :
+      <span class="info-label">
+        Alamat
       </span>
 
-      <span class="value">
+      <span class="info-value">
+        ${escapeHtml(destination)}
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        No Resi
+      </span>
+
+      <span class="info-value">
+        ${escapeHtml(resi)}
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Seller
+      </span>
+
+      <span class="info-value">
         ${escapeHtml(seller)}
       </span>
 
     </div>
 
 
-    <div class="row">
+    <div class="info-row">
 
-      <span class="label">
-        Status :
+      <span class="info-label">
+        Status
       </span>
 
-      <span class="value status">
+      <span class="status">
         ${escapeHtml(status)}
       </span>
 
@@ -520,8 +678,8 @@ function tampilkanHasil(data, awb, nomor) {
 
 
     <button
-      class="history-button"
-      onclick="toggleHistory(${nomor})">
+      class="history-btn"
+      onclick="toggleHistory(${index})">
 
       Lihat riwayat perjalanan
 
@@ -529,7 +687,7 @@ function tampilkanHasil(data, awb, nomor) {
 
 
     <div
-      id="history-${nomor}"
+      id="history-${index}"
       class="history">
 
       ${historyHTML}
@@ -540,21 +698,21 @@ function tampilkanHasil(data, awb, nomor) {
 }
 
 
-function toggleHistory(nomor) {
+function toggleHistory(index) {
 
-  const element =
+  const history =
     document.getElementById(
-      `history-${nomor}`
+      `history-${index}`
     );
 
 
-  if (element.style.display === "block") {
+  if (history.style.display === "block") {
 
-    element.style.display = "none";
+    history.style.display = "none";
 
   } else {
 
-    element.style.display = "block";
+    history.style.display = "block";
 
   }
 
